@@ -1,16 +1,47 @@
 plugins {
     // Apply the java-library plugin to add support for Java Library
     id 'java-library'
+    //Apply the maven-publish plugin to publish library to MavenLocal for use in other projects 
+    id 'maven-publish'
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
-
-sourceCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
     implementation 'com.konghq:unirest-java:2.3.08'
-    implementation 'com.squareup.moshi:moshi:1.8.0'
+    implementation 'com.squareup.moshi:moshi:1.14.0'
     testImplementation 'junit:junit:4.12'
 }
+
+java{
+    sourceCompatibility = JavaVersion.VERSION_1_8
+  
+}
+
+//For publishing Java library to MavenLocal
+
+afterEvaluate{
+    publishing{
+        publications{
+            mavenJava(MavenPublication){
+                from components.java
+                
+                groupId    = 'com.aaroncoplan.todoist'
+                artifactId = 'todoist'
+                version    = '1.0'
+
+              //  artifact sourcesJar
+              // artifact packageJavadoc
+            }
+        }
+    }
+}
+
+/**
+
+RUN COMMAND .\gradlew publishToMavenLocal to publish library to MavenLocal (C:\Users\heera\.m2)
+
+
+ */

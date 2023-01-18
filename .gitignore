@@ -4,10 +4,10 @@
 # Ignore Gradle build output directory
 build
 out/
+bin
 
-# IntelliJ files
-.idea/
-*.iml
+# Visual Studio Code files
+.vscode
 
 # Testing File with API Key
 KeyTest.java

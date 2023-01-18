@@ -14,7 +14,8 @@ public class Todoist {
     private final int HTTP_OK = 200;
     private final int HTTP_OK_NO_CONTENT = 204;
 
-    private final String URL_BASE = "https://beta.todoist.com/API/v8";
+    //https://beta.todoist.com/API/v8
+    private final String URL_BASE = "https://api.todoist.com/rest/v2";
 
     public Todoist(String token) {
         Unirest.config()
