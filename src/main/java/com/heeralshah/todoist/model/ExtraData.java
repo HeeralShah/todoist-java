@@ -1,4 +1,4 @@
-package com.aaroncoplan.todoist.model;
+package com.heeralshah.todoist.model;
 
 import com.squareup.moshi.Json;
 

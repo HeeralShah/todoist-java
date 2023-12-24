@@ -1,20 +1,40 @@
-package com.aaroncoplan.todoist;
+package com.heeralshah.todoist;
 
-import com.aaroncoplan.todoist.helpers.*;
-import com.aaroncoplan.todoist.model.Comment;
-import com.aaroncoplan.todoist.model.Label;
-import com.aaroncoplan.todoist.model.Project;
-import com.aaroncoplan.todoist.model.Task;
+import com.heeralshah.todoist.helpers.*;
+//import com.heeralshah.todoist.model.Comment;
+//import com.heeralshah.todoist.model.Label;
+//import com.heeralshah.todoist.model.Project;
+//import com.heeralshah.todoist.model.Task;
+import com.heeralshah.todoist.model.ResourceType;
+import com.heeralshah.todoist.model.ReadRequest;
+import com.heeralshah.todoist.model.ReadResponse;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 
 import java.io.IOException;
+//import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+
 public class JsonAdapters {
 
-    private static final Moshi moshi = new Moshi.Builder().build();
+    private static final Moshi moshi = new Moshi.Builder()
+                                                .add(new ResourceTypeAdapter())
+                                                .build();
+
+    private static final JsonAdapter<ReadRequest> projectReadRequestAdapter = moshi.adapter(ReadRequest.class);
+
+    private static final JsonAdapter<ReadResponse> projectReadResponseAdapter = moshi.adapter(ReadResponse.class);
+
+    public static String writeReadRRequest(ReadRequest readRequest) {
+        return projectReadRequestAdapter.toJson(readRequest);
+    }
+
+    public static ReadResponse extractReadResponse(String json) throws IOException{
+        return projectReadResponseAdapter.fromJson(json);
+    }
+/**
 
     private static final JsonAdapter<Project[]> projectArrayJsonAdapter = moshi.adapter(Project[].class);
     private static final JsonAdapter<Project> projectJsonAdapter = moshi.adapter(Project.class);
@@ -34,6 +54,8 @@ public class JsonAdapters {
 
     private static final JsonAdapter<ActivityResponse> activityResponseJsonAdapter = moshi.adapter(ActivityResponse.class);
     private static final JsonAdapter<ActivityRequest> activityRequestJsonAdapter = moshi.adapter(ActivityRequest.class);
+
+
 
     public static List<Project> extractProjectList(String json) throws IOException {
         return Arrays.asList(projectArrayJsonAdapter.fromJson(json));
@@ -90,4 +112,19 @@ public class JsonAdapters {
     public static String writeActivityRequest(ActivityRequest activityRequest) {
         return activityRequestJsonAdapter.toJson(activityRequest);
     }
+ */
+
+    public static void main(String args[]) {
+
+
+        //this is an array not a list ->convert to list
+        ResourceType[] resourceTypes = new ResourceType[]{ResourceType.PROJECTS};
+        List<ResourceType> finalResourceTypes = Arrays.asList(resourceTypes);
+        String token = "placeholder";
+        ReadRequest newReadRequest = new ReadRequest(token, finalResourceTypes);
+        System.out.println(JsonAdapters.writeReadRRequest(newReadRequest));
+
+    }
+
 }
+

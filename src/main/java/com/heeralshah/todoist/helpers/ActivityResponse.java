@@ -1,6 +1,6 @@
-package com.aaroncoplan.todoist.helpers;
+package com.heeralshah.todoist.helpers;
 
-import com.aaroncoplan.todoist.model.Activity;
+import com.heeralshah.todoist.model.Activity;
 
 import java.util.List;
 

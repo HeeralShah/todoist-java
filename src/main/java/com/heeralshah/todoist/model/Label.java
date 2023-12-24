@@ -1,4 +1,4 @@
-package com.aaroncoplan.todoist.model;
+package com.heeralshah.todoist.model;
 
 public class Label {
 

@@ -1,4 +1,4 @@
-package com.aaroncoplan.todoist.helpers;
+package com.heeralshah.todoist.helpers;
 
 import com.squareup.moshi.Json;
 

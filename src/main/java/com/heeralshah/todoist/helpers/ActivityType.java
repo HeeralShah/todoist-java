@@ -1,4 +1,4 @@
-package com.aaroncoplan.todoist.helpers;
+package com.heeralshah.todoist.helpers;
 
 import java.util.Arrays;
 import java.util.List;

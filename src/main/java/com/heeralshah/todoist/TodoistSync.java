@@ -1,23 +1,26 @@
-package com.aaroncoplan.todoist;
+package com.heeralshah.todoist;
 
-import com.aaroncoplan.todoist.helpers.*;
-import com.aaroncoplan.todoist.model.*;
+import com.heeralshah.todoist.TodoistException;
+import com.heeralshah.todoist.helpers.*;
+import com.heeralshah.todoist.model.*;
+import com.squareup.moshi.Json;
+
 import kong.unirest.HttpResponse;
+import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Todoist {
+public class TodoistSync {
 
     private final int HTTP_OK = 200;
     private final int HTTP_OK_NO_CONTENT = 204;
 
-    //https://beta.todoist.com/API/v8
-    private final String URL_BASE = "https://api.todoist.com/rest/v2";
+    private final String URL_BASE = "https://api.todoist.com/sync/v9/sync";
 
-    public Todoist(String token) {
+    public TodoistSync(String token) {
         Unirest.config()
                 .connectTimeout(20_000)
                 .socketTimeout(20_000)
@@ -36,6 +39,23 @@ public class Todoist {
         R apply(P t) throws IOException;
     }
 
+    public ReadResponse getAllProjects() throws TodoistException {
+        ResourceType[] projects = new ResourceType[]{ResourceType.PROJECTS};
+        HttpResponse<String> response = Unirest.post(URL_BASE)
+                    .header("Content-Type", "application/json")
+                    .body(JsonAdapters.writeReadRRequest(new ReadRequest("*", Arrays.asList(projects))))
+                    .asString();
+        if(response.getStatus() != HTTP_OK) throw new TodoistException(response.getStatus());
+        return extract(JsonAdapters::extractReadResponse, response);
+    }
+
+   // public List<Project> getAllProjects() throws TodoistException {
+
+
+    //}
+
+
+/** 
     public List<Project> getAllProjects() throws TodoistException {
         HttpResponse<String> response = Unirest.get(URL_BASE + "/projects")
                 .asString();
@@ -241,6 +261,10 @@ public class Todoist {
         if(response.getStatus() != HTTP_OK_NO_CONTENT) throw new TodoistException(response.getStatus());
     }
 
+    */
+
+    /**
+
     public List<Activity> getActivityForProject(long id) throws TodoistException {
         return getActivityForProject(id, ActivityType.ALL);
     }
@@ -303,5 +327,20 @@ public class Todoist {
         } while(offset < count);
 
         return activityList;
+    }
+
+     */
+
+
+    public static void main(String args[]){
+        TodoistSync td = new TodoistSync("05100232bfecbeda0eb587d54e4781bba14350d4");
+        try {
+            List<Project> projects = td.getAllProjects().projects;
+            for (Project proj : projects) {
+                System.out.println(proj.toString());
+            }
+        } catch (TodoistException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

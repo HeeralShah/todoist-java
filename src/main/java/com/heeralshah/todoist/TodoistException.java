@@ -1,4 +1,4 @@
-package com.aaroncoplan.todoist;
+package com.heeralshah.todoist;
 
 public class TodoistException extends Exception {
 

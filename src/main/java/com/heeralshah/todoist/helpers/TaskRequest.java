@@ -1,10 +1,11 @@
-package com.aaroncoplan.todoist.helpers;
+package com.heeralshah.todoist.helpers;
 
+import com.heeralshah.todoist.TodoistException;
 import com.squareup.moshi.Json;
 
 import java.util.List;
 
-public class TaskRequest {
+public class TaskRequest{
 
     public final String content;
     @Json(name = "project_id") public final Long projectId;
@@ -17,7 +18,8 @@ public class TaskRequest {
     @Json(name = "due_datetime") public final String dueDateTime;
     @Json(name = "due_lang") public final String dueLang;
 
-    public TaskRequest(String content, Long projectId, Integer order, List<Long> labelIds, Integer priority, String dueString, String dueDate, String dueDateTime, String dueLang) {
+    public TaskRequest(String content, Long projectId, Integer order, List<Long> labelIds, Integer priority, String dueString, String dueDate, String dueDateTime, String dueLang) throws TodoistException{
+
         this.content = content;
         this.projectId = projectId;
         this.order = order;
