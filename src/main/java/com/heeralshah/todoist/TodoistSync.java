@@ -1,17 +1,12 @@
 package com.heeralshah.todoist;
 
-import com.heeralshah.todoist.TodoistException;
-import com.heeralshah.todoist.helpers.*;
 import com.heeralshah.todoist.model.*;
-import com.squareup.moshi.Json;
 
 import kong.unirest.HttpResponse;
-import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class TodoistSync {
 
@@ -39,20 +34,22 @@ public class TodoistSync {
         R apply(P t) throws IOException;
     }
 
-    public ReadResponse getAllProjects() throws TodoistException {
+    public List<Project> getAllProjects() throws TodoistException {
         ResourceType[] projects = new ResourceType[]{ResourceType.PROJECTS};
         HttpResponse<String> response = Unirest.post(URL_BASE)
                     .header("Content-Type", "application/json")
                     .body(JsonAdapters.writeReadRRequest(new ReadRequest("*", Arrays.asList(projects))))
                     .asString();
         if(response.getStatus() != HTTP_OK) throw new TodoistException(response.getStatus());
-        return extract(JsonAdapters::extractReadResponse, response);
+        return extract(JsonAdapters::extractReadResponse, response).getProjects();
     }
 
-   // public List<Project> getAllProjects() throws TodoistException {
-
-
-    //}
+    public Project getProject(long id) throws TodoistException {
+        HttpResponse<String> response = Unirest.get(URL_BASE + "/projects/" + id)
+                .asString();
+        if(response.getStatus() != HTTP_OK) throw new TodoistException(response.getStatus());
+        return extract(JsonAdapters::extractProject, response);
+    }
 
 
 /** 
@@ -334,8 +331,8 @@ public class TodoistSync {
 
     public static void main(String args[]){
         TodoistSync td = new TodoistSync("05100232bfecbeda0eb587d54e4781bba14350d4");
-        try {
-            List<Project> projects = td.getAllProjects().projects;
+        try{
+            List<Project> projects = td.getAllProjects();
             for (Project proj : projects) {
                 System.out.println(proj.toString());
             }

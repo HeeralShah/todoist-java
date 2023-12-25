@@ -6,8 +6,12 @@ import com.heeralshah.todoist.helpers.*;
 //import com.heeralshah.todoist.model.Project;
 //import com.heeralshah.todoist.model.Task;
 import com.heeralshah.todoist.model.ResourceType;
+
 import com.heeralshah.todoist.model.ReadRequest;
 import com.heeralshah.todoist.model.ReadResponse;
+
+import com.heeralshah.todoist.model.ProjectCommand;
+import com.heeralshah.todoist.model.ProjectArgs;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 
@@ -27,12 +31,21 @@ public class JsonAdapters {
 
     private static final JsonAdapter<ReadResponse> projectReadResponseAdapter = moshi.adapter(ReadResponse.class);
 
+    private static final JsonAdapter<ProjectArgs> projectArgsAdapter = moshi.adapter(ProjectArgs.class);
+
+    private static final JsonAdapter<ProjectCommand> projectCommandAdapter = moshi.adapter(ProjectCommand.class);
+
+
     public static String writeReadRRequest(ReadRequest readRequest) {
         return projectReadRequestAdapter.toJson(readRequest);
     }
 
     public static ReadResponse extractReadResponse(String json) throws IOException{
         return projectReadResponseAdapter.fromJson(json);
+    }
+
+    public static String writeProjectCommand(ProjectCommand projectCommand){
+        return projectCommandAdapter.toJson(projectCommand);
     }
 /**
 
@@ -124,6 +137,9 @@ public class JsonAdapters {
         ReadRequest newReadRequest = new ReadRequest(token, finalResourceTypes);
         System.out.println(JsonAdapters.writeReadRRequest(newReadRequest));
 
+        ProjectArgs projArgs = new ProjectArgs("New Proj", "blue", false, 0, 1, "");
+        ProjectCommand projCommand = new ProjectCommand("command_type", projArgs);
+        System.out.println(JsonAdapters.writeProjectCommand(projCommand));
     }
 
 }

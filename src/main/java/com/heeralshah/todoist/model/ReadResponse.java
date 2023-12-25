@@ -39,6 +39,34 @@ public class ReadResponse{
         this.stats = stats;
         this.sections = sections;
         this.syncToken = syncToken;
-        
+    }
+
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public List<Task> getTasks() {
+        return items;
+    }
+
+    public Stats getStats(){
+        return stats;
+    }
+
+    public List<Section> getSections(){
+        return sections;
+    }
+
+    public List<Filter> getFilters() {
+        return filters;
+    }
+
+    public boolean getFullSync() {
+        return fullSync;
+    }
+
+    public String getSyncToken() {
+        return syncToken;
     }
 }
+

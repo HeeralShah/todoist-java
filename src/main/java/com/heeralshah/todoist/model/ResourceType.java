@@ -21,5 +21,10 @@ public enum ResourceType {
     public String getResourceType() {
         return resourceType;
     }
+    
+    @Override
+    public String toString() {
+        return this.resourceType;
+    }
 
 }
